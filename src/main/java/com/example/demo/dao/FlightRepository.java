@@ -16,5 +16,5 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
     List<Flight> getActiveFlightsStarted24hAgo();
 
     @Query("select flight from Flight flight where flight.flight_status = 1")
-    List<Flight> getComplFlightsWithDiffInTime();
+    List<Flight> getComplFlightsWithStatusCompleted();
 }

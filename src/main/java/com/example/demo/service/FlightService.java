@@ -63,28 +63,13 @@ public class FlightService implements IFlightService {
 
         Flight flight1 = setCompanyForFlight(flight.getAirCompanyId());
         newFlight.setAirCompany(flight1.getAirCompany());
-//        airCompanyRepository.findAll().forEach(company -> {
-//            if (company.getId() == flight.getAirCompanyId()) {
-//                newFlight.setAirCompany(company);
-//            }
-//        });
-
         Flight flight2 = setAirplane(flight.getAirplaneId());
         newFlight.setAirplane(flight2.getAirplane());
-//        airPlaneRepository.findAll().forEach(airPlane -> {
-//            if (airPlane.getId() == flight.getAirplaneId()) {
-//                newFlight.setAirplane(airPlane);
-//            }
-//        });
-
         newFlight.setDep_country(flight.getDep_country());
         newFlight.setDest_country(flight.getDest_country());
         newFlight.setDistance(flight.getDistance());
         newFlight.setEst_flight_time(flight.getEst_flight_time());
-//        newFlight.setStarted_at(flight.getStarted_at());
-//        newFlight.setEnded_at(flight.getEnded_at());
-//        newFlight.setDelay_started_at(flight.getDelay_started_at());
-//        newFlight.setCreated_at(flight.getCreated_at());
+
         return flightRepository.saveAndFlush(newFlight);
     }
 
@@ -128,15 +113,19 @@ public class FlightService implements IFlightService {
 
     @Override
     public List<Flight> getCompFlightsWithDiffTime() {
-        List<Flight> complFlights = flightRepository.getComplFlightsWithDiffInTime();
+        List<Flight> complFlights = flightRepository.getComplFlightsWithStatusCompleted();
         List<Flight> flightList = new ArrayList<>();
         complFlights.forEach(flight -> {
             try {
-                Date dateEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(flight.getEnded_at());
-                Date dateStart = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(flight.getStarted_at());
+                Date dateEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(flight.getEnded_at());
+                logger.error("End time " + dateEnd);
+                Date dateStart = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(flight.getStarted_at());
+                logger.error("Start time " + dateStart);
+
                 Date timeEst = new SimpleDateFormat("HH:mm").parse(flight.getEst_flight_time());
+                logger.error("Est time " + timeEst);
                 if ((dateEnd.getTime() - dateStart.getTime()) > timeEst.getTime()) {
-                    System.out.println("Час " + ((dateEnd.getTime() - dateStart.getTime()) - timeEst.getTime()));
+                    logger.error("Different " + ((dateEnd.getTime() - dateStart.getTime()) - timeEst.getTime()));
                     flightList.add(flight);
                 }
             } catch (ParseException e) {
@@ -181,18 +170,7 @@ public class FlightService implements IFlightService {
         }
 
         setCompanyForFlight(flight.getAirCompanyId());
-//        airCompanyRepository.findAll().forEach(company -> {
-//            if (company.getId() == flight.getAirCompanyId()) {
-//                newFlight.setAirCompany(company);
-//            }
-//        });
-
         setAirplane(flight.getAirplaneId());
-//        airPlaneRepository.findAll().forEach(airPlane -> {
-//            if (airPlane.getId() == flight.getAirplaneId()) {
-//                newFlight.setAirplane(airPlane);
-//            }
-//        });
 
         newFlight.setDep_country(flight.getDep_country());
         newFlight.setDest_country(flight.getDest_country());

@@ -43,19 +43,6 @@ public class AirCompanyService implements IAirCompanyService {
             airCompany.setId(id);
             return airCompanyRepository.saveAndFlush(airCompany);
         } else throw new IllegalArgumentException("No air company with such id found: " + id);
-
-//        AirCompany newCompany = new AirCompany();
-//
-//        Optional<AirCompany> companyById = airCompanyRepository.findById(airCompany.getId());
-//        AirCompany company = companyById.orElseThrow(() ->
-//                new BadRequestException("Company did not find in DB"));
-//
-//        newCompany.setId(company.getId());
-//        newCompany.setName(airCompany.getName());
-//        newCompany.setCompany_type(airCompany.getCompany_type());
-//        newCompany.setFounded_at(airCompany.getFounded_at());
-//
-//        return airCompanyRepository.saveAndFlush(newCompany);
     }
 
     @Override

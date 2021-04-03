@@ -14,6 +14,6 @@ public class FlightStatusTimeDto {
     private int flightStatus;
     private int flightId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private String time;
 }

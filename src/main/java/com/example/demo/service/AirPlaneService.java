@@ -49,7 +49,6 @@ public class AirPlaneService implements IAirPlaneService {
         return null;
     }
 
-    // перевірити ще чи такий по імені не існує як повторне значення
     public Airplane createAirplane(AirplaneCreateDto airplane) {
         Airplane newAirplane = new Airplane();
 
